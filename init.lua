@@ -610,7 +610,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
+        -- ts_ls = {},
         --
 
         lua_ls = {
@@ -668,6 +668,29 @@ require('lazy').setup({
         },
       }
     end,
+  },
+
+  -- seperate plubin for typescript
+  {
+    'pmizio/typescript-tools.nvim',
+    ft = { 'typescript', 'typescriptreact', 'typescript.tsx' },
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'mason-org/mason.nvim',
+      'mason-org/mason-lspconfig.nvim',
+    },
+    opts = {
+      -- You can pass options to the plugin here, see the README for more information
+      settings = {
+        typescript = {
+          tools = {
+            autoSetHints = true,
+            hover_with_actions = true,
+            autoImportSuggestions = true,
+          },
+        },
+      },
+    },
   },
 
   { -- Autoformat
