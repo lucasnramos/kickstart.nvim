@@ -617,6 +617,11 @@ require('lazy').setup({
           -- cmd = { ... },
           -- filetypes = { ... },
           -- capabilities = {},
+          opts = {
+            rocks = {
+              enabled = false,
+            },
+          },
           settings = {
             Lua = {
               completion = {
