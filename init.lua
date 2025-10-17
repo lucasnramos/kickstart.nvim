@@ -913,6 +913,29 @@ require('lazy').setup({
   },
 
   {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+      'MunifTanjim/nui.nvim',
+    },
+    config = function()
+      require('neo-tree').setup {
+        filesystem = {
+          filtered_items = {
+            visible = true, -- This will show hidden files
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+        },
+      }
+
+      vim.keymap.set('n', '<leader>ft', '<cmd>Neotree toggle<cr>', { desc = 'Toggle NeoTree Explorer' })
+    end,
+  },
+
+  {
     'github/copilot.vim',
   },
 
@@ -929,7 +952,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   --
 
