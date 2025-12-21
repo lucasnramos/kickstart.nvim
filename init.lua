@@ -823,7 +823,21 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
+    end,
+  },
+
+  {
+    'Mofiqul/dracula.nvim',
+    priority = 1000,
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('dracula').setup {
+        styles = {
+          comments = { italic = false }, -- Disable italics in comments
+        },
+      }
+      vim.cmd [[colorscheme dracula]]
     end,
   },
 
@@ -891,10 +905,6 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-  },
-
-  {
-    'github/copilot.vim',
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
