@@ -50,13 +50,7 @@ return {
           -- Only run the linter in buffers that you can modify in order to
           -- avoid superfluous noise, notably within the handy LSP pop-ups that
           -- describe the hovered symbol using Markdown.
-<<<<<<< HEAD
-          if vim.bo.modifiable then
-            lint.try_lint(nil, { ignore_errors = true })
-          end
-=======
           if vim.bo.modifiable then lint.try_lint() end
->>>>>>> e79572c9e6978787af2bca164a85ab6821caeb7b
         end,
       })
     end,
