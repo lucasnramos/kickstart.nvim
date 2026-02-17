@@ -85,6 +85,8 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+vim.o.termguicolors = true
+
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
@@ -712,39 +714,11 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+  {  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+    'p00f/alabaster.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      -- vim.cmd.colorscheme 'tokyonight-night'
-    end,
-  },
-
-  {
-    'Mofiqul/dracula.nvim',
-    priority = 1000,
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('dracula').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-      vim.cmd [[colorscheme dracula]]
+      vim.cmd.colorscheme 'alabaster'
     end,
   },
 
