@@ -540,6 +540,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'emmylua_ls', -- Lua Language server
         'stylua', -- Used to format Lua code
+        'gopls', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
       })
 
