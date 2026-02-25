@@ -92,7 +92,6 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.o.termguicolors = true
 
--- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
   update_in_insert = false,
@@ -332,7 +331,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+      vim.keymap.set('n', '<leader>st', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+      vim.keymap.set('n', '<leader>ss', builtin.git_status, { desc = '[S]earch Git [S]tatus' })
       vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
@@ -415,7 +415,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -514,7 +514,9 @@ require('lazy').setup({
       --  See `:help lsp-config` for information about keys and how to configure
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+        },
         -- pyright = {},
         -- rust_analyzer = {},
         --
@@ -708,12 +710,10 @@ require('lazy').setup({
     },
   },
 
-  {  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  { -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'p00f/alabaster.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      vim.cmd.colorscheme 'alabaster'
-    end,
+    config = function() vim.cmd.colorscheme 'alabaster' end,
   },
 
   -- Highlight todo, notes, etc in comments
@@ -742,7 +742,33 @@ require('lazy').setup({
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      statusline.setup {
+        use_icons = vim.g.have_nerd_font,
+        content = {
+          active = function()
+            -- git section (branch only)
+            local git = MiniStatusline.section_git { trunc_width = 20 }
+
+            -- filename section
+            local filename = MiniStatusline.section_filename { trunc_width = 20 }
+
+            -- Combine with spacing and simple layout
+            return MiniStatusline.combine_groups {
+              { hl = 'MiniStatuslineDevinfo', strings = { git } },
+              '%<', -- allow truncation here
+              { hl = 'MiniStatuslineFilename', strings = { filename } },
+            }
+          end,
+
+          -- for inactive windows just show filename
+          inactive = function()
+            local filename = MiniStatusline.section_filename { trunc_width = 0 }
+            return MiniStatusline.combine_groups {
+              { hl = 'MiniStatuslineInactive', strings = { filename } },
+            }
+          end,
+        },
+      }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
@@ -758,7 +784,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go' }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
